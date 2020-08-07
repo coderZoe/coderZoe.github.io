@@ -3,12 +3,11 @@
   <entry>
     <title>Mybatis笔记</title>
     <url>/2020/08/06/Mybatis%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h1 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>Mybatis：</strong></p>
-<blockquote>
+    <content><![CDATA[<blockquote>
 <p>MyBatis 是一款优秀的持久层框架，它支持自定义 SQL、存储过程以及高级映射。MyBatis 免除了几乎所有的 JDBC 代码以及设置参数和获取结果集的工作。MyBatis 可以通过简单的 XML 或注解来配置和映射原始类型、接口和 Java POJO（Plain Old Java Objects，普通老式 Java 对象）为数据库中的记录 。（摘自Mybatis官方文档）</p>
 </blockquote>
 <a id="more"></a>
-<p><strong>Mybatis与JPA的对比：</strong></p>
+<h1 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h1><p><strong>Mybatis与JPA的对比：</strong></p>
 <ul>
 <li>Mybatis是一个半自动框架，JPA(Hibernate)是一个全自动框架。</li>
 <li>Mybatis相比JPA更加轻量化，学习成本更加的低，入门简单容易。</li>
