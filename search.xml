@@ -1058,10 +1058,12 @@
   <entry>
     <title>Spring整合Mybais</title>
     <url>/2020/08/06/Spring%E6%95%B4%E5%90%88Mybais/</url>
-    <content><![CDATA[<h1 id="Spring整合Mybais"><a href="#Spring整合Mybais" class="headerlink" title="Spring整合Mybais"></a>Spring整合Mybais</h1><h2 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h2><a id="more"></a>
+    <content><![CDATA[<blockquote>
+<p>市面上常用框架SSM，指的是Spring,SpringMvc和Mybatis。<br>Spring的特性是控制反转，所以我们需要将Mybatis整合进Spring。</p>
+</blockquote>
+<a id="more"></a> 
 
-
-<p><strong>创建Mybatis的步骤</strong></p>
+<h1 id="Spring整合Mybais"><a href="#Spring整合Mybais" class="headerlink" title="Spring整合Mybais"></a>Spring整合Mybais</h1><h2 id="Mybatis"><a href="#Mybatis" class="headerlink" title="Mybatis"></a>Mybatis</h2><p><strong>创建Mybatis的步骤</strong></p>
 <blockquote>
 <ul>
 <li><ol>
