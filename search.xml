@@ -27,7 +27,7 @@
 <figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *创建租客类 调用中介租房</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Tenant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyProxy myProxy = <span class="keyword">new</span> MyProxy();</span><br><span class="line">        myProxy.setRent(<span class="keyword">new</span> Landlord());</span><br><span class="line">        myProxy.rent();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>实际执行结果</p>
-<p><img data-src="Spring%E7%AC%94%E8%AE%B0-AOP.assets%5Cimage-20200605174144551.png" alt="image-20200605174144551"></p>
+<p><img data-src="images/../../../public/images/%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C.png" alt="运行结果"></p>
 <p>上面就是Java的代理模式</p>
 <h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><p>AOP的全称叫做 <strong>Aspect Oriented Program 面向切面编程</strong></p>
 <p>先进行几个定义：</p>
