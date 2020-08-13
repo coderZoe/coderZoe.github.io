@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>test</title>
+    <url>/2020/08/13/test/</url>
+    <content><![CDATA[<p><img data-src="a.png" alt="运行结果"></p>
+]]></content>
+  </entry>
+  <entry>
     <title>Spring笔记-AOP</title>
     <url>/2020/08/13/Spring%E7%AC%94%E8%AE%B0-AOP/</url>
     <content><![CDATA[<blockquote>
