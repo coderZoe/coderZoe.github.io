@@ -6,6 +6,7 @@
     <content><![CDATA[<blockquote>
 <p>Spring两大核心：IOC和AOP，其中IOC即控制反转，其思想本质是设计模式中的工厂模式。<br>学习Spring，也就是理解这两大思想。本文就是个人对IOC的理解。</p>
 </blockquote>
+<a id="more"></a>
 <h1 id="个人关于IOC的理解"><a href="#个人关于IOC的理解" class="headerlink" title="个人关于IOC的理解"></a>个人关于IOC的理解</h1><h2 id="IOC"><a href="#IOC" class="headerlink" title="IOC"></a>IOC</h2><p>IOC即控制反转(Inversion of Control)</p>
 <p>了解控制反转前我们先了解下正常逻辑的思路：</p>
 <blockquote>
