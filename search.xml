@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Spring笔记-AOP</title>
+    <url>/2020/08/13/Spring%E7%AC%94%E8%AE%B0-AOP/</url>
+    <content><![CDATA[<blockquote>
+<p>讲完上一篇的IOC，这一篇再来说说AOP，AOP即面向切面编程，我们都知道Java语言是面向对象编程，在工作中还听过面向接口编程，那么什么是面向切面编程呢？</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="Spring-AOP的个人理解"><a href="#Spring-AOP的个人理解" class="headerlink" title="Spring AOP的个人理解"></a>Spring AOP的个人理解</h1><p><strong>了解AOP之前先了解一下代理模式</strong></p>
+<h2 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h2><p>所谓代理模式，就是在调用方和真实处理对象方之间加一层代理对象。这样调用方不再调用我们的真实处理对象，改而调用我们的代理。这样的好处是：</p>
+<ul>
+<li>真实处理类就只需要关注我们的业务层实现，不需要关注细枝末节。</li>
+<li>代理类类似于做了一层封装。封装我们的真实类，在此基础上，加上我们的细枝末节。</li>
+<li>调用方实际调用起来，真实类和代理类的调用感觉不到任何差别。但我们可以在中间层代理类做更多细节的操作，这样就做到了真实调用方和真实处理类的解耦。</li>
+</ul>
+<p><strong>举个现实中的例子：</strong></p>
+<p>通常我们租房都需要找中介，很少自己直接去找房东的。这样我们实现的调用关系为 ：租客-&gt;中介-&gt;房东</p>
+<p>对于房东来说他是我们的真实处理类，房东更关心的点是签合同和收房租。但租房子除了签合同和收房租外，还需要看房子，谈价钱，交付钥匙等等手续。在这个示例中：签合同和收房租属于我们的核心业务，而谈价格，看房子等就属于我们的周边功能，细枝末节。因此我们的真实类只需要实现签合同和收房租方法，而让中介(也就是我们的代理)实现看房子，谈价钱，交付钥匙等方法。租客在实际调用中只需要调用中介包装过的方法即可。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建房东和中介共同的接口 定义了他们的行为，便于调用方调用</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Rent</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">rent</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建真实类 房东</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Landlord</span> <span class="keyword">implements</span> <span class="title">Rent</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;房东签合同了！！&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;房东收房租了！！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 创建代理类</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyProxy</span> <span class="keyword">implements</span> <span class="title">Rent</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//被代理的实例</span></span><br><span class="line">    <span class="keyword">private</span> Rent rent;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setRent</span><span class="params">(Rent rent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.rent = rent;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;中介带你看房子了！！&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;中介和你谈价格了！！&quot;</span>);</span><br><span class="line">        rent.rent();</span><br><span class="line">        System.out.println(<span class="string">&quot;中介把钥匙交给你了！！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> *创建租客类 调用中介租房</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Tenant</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        MyProxy myProxy = <span class="keyword">new</span> MyProxy();</span><br><span class="line">        myProxy.setRent(<span class="keyword">new</span> Landlord());</span><br><span class="line">        myProxy.rent();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>实际执行结果</p>
+<p><img data-src="Spring%E7%AC%94%E8%AE%B0-AOP.assets%5Cimage-20200605174144551.png" alt="image-20200605174144551"></p>
+<p>上面就是Java的代理模式</p>
+<h2 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h2><p>AOP的全称叫做 <strong>Aspect Oriented Program 面向切面编程</strong></p>
+<p>先进行几个定义：</p>
+<ul>
+<li>核心业务功能：即业务处理时实际关心的操作，比如增删改查</li>
+<li>周边功能：在写业务代码时附属的功能，比如日志，事务管理等。</li>
+</ul>
+<p>在AOP的思想里，周边功能叫做切面，核心业务需要和切面分开独立开发。然后再将切面功能与核心业务编织在一起，这就叫AOP。</p>
+<p>AOP能够将那些与业务无关，<strong>却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来</strong>，便于<strong>减少系统的重复代码</strong>，<strong>降低模块间的耦合度</strong>，并<strong>有利于未来的可拓展性和可维护性</strong>。</p>
+<p>AOP里面的几个概念：</p>
+<ul>
+<li>切入点：即调用切面的地方，在某个类的某个方法内调切面。(where)</li>
+<li>通知，在切入点的什么时间，执行什么操作。比如在删除数据(切入点)里，业务执行之前(时间)加入日志操作(操作)  (when and where)</li>
+<li>切面：切入点加通知即为切面(在什么地方，什么时间，做什么事)。这样，实际开发中，我们可以独立开发切面模块。</li>
+<li>织入：将切面加入对象，并创建出代理对象的过程。</li>
+</ul>
+<p><strong>还拿刚才租房举例子</strong></p>
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> yhs</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/6/5 15:51</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span> 实际业务类 不关心其他</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Landlord</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">rent</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;签合同&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;收房租&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.coderzoe.demo5;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.After;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Aspect;</span><br><span class="line"><span class="keyword">import</span> org.aspectj.lang.annotation.Before;</span><br><span class="line"><span class="keyword">import</span> org.springframework.stereotype.Component;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> yhs</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/6/5 15:54</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span> 切面类 即我们的代理</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">@Component</span></span><br><span class="line"><span class="meta">@Aspect</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Section</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Before(&quot;execution(* com.coderzoe.demo5.Landlord.rent())&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">before</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;带租客看房！！&quot;</span>);</span><br><span class="line">        System.out.println(<span class="string">&quot;谈价钱！！&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="meta">@After(&quot;execution(* com.coderzoe.demo5.Landlord.rent())&quot;)</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">after</span><span class="params">()</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;交钥匙&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="keyword">package</span> com.coderzoe.demo5;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.ApplicationContext;</span><br><span class="line"><span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> yhs</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@date</span> 2020/6/5 16:04</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@description</span></span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        ApplicationContext context = <span class="keyword">new</span> ClassPathXmlApplicationContext(<span class="string">&quot;applicationContext.xml&quot;</span>);</span><br><span class="line">        Landlord landlord = context.getBean(<span class="string">&quot;landlord&quot;</span>, Landlord.class);</span><br><span class="line">        landlord.rent();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>运行结果：</p>
+<p><img data-src="C:\Users\90617\AppData\Roaming\Typora\typora-user-images\image-20200605174144551.png" alt="image-20200605174144551"></p>
+<p>这里的Section与我们之前的代理类MyProxy所作的工作一样，不过更通用和简洁。</p>
+<p>在切面类中，我们指定了切入点( com.coderzoe.demo5.Landlord.rent() )，同时我们指定了通知@Before和before函数，@After和after函数</p>
+<p>通过上面我们可以知道切面=切入点+通知，这样我们就创建了一个切面类，他完全独立于我们的实际业务类，只做切入操作。这样也不难理解，核心功能和周边功能可以独立开发。</p>
+<p><strong>注意</strong></p>
+<p>AOP的使用除了spring-aop包以外，还需要aspectjrt和aspectjweaver依赖</p>
+<figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">     &lt;dependency&gt;</span><br><span class="line">            &lt;groupId&gt;org.springframework&lt;/groupId&gt;</span><br><span class="line">            &lt;artifactId&gt;spring-webmvc&lt;/artifactId&gt;</span><br><span class="line">            &lt;version&gt;5.2.6.RELEASE&lt;/version&gt;</span><br><span class="line">        &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;aspectj&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;aspectjrt&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.5.4&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.aspectj&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;aspectjweaver&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;1.9.5&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>学习笔记</category>
+        <category>后端</category>
+      </categories>
+      <tags>
+        <tag>Spring</tag>
+        <tag>AOP</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Spring笔记-IOC</title>
     <url>/2020/08/13/Spring%E7%AC%94%E8%AE%B0-IOC/</url>
     <content><![CDATA[<blockquote>
