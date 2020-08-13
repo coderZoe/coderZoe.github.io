@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>test</title>
-    <url>/2020/08/13/test/</url>
-    <content><![CDATA[<p><img data-src="a.png" alt="运行结果"></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Spring笔记-AOP</title>
     <url>/2020/08/13/Spring%E7%AC%94%E8%AE%B0-AOP/</url>
     <content><![CDATA[<blockquote>
@@ -60,7 +54,7 @@
 
 
 <p>运行结果：</p>
-<p><img data-src="C:\Users\90617\AppData\Roaming\Typora\typora-user-images\image-20200605174144551.png" alt="image-20200605174144551"></p>
+<p><img data-src="runresult.png" alt="运行结果"></p>
 <p>这里的Section与我们之前的代理类MyProxy所作的工作一样，不过更通用和简洁。</p>
 <p>在切面类中，我们指定了切入点( com.coderzoe.demo5.Landlord.rent() )，同时我们指定了通知@Before和before函数，@After和after函数</p>
 <p>通过上面我们可以知道切面=切入点+通知，这样我们就创建了一个切面类，他完全独立于我们的实际业务类，只做切入操作。这样也不难理解，核心功能和周边功能可以独立开发。</p>
